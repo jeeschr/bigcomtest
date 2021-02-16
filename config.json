@@ -363,6 +363,13 @@
   },
   "variations": [
     {
+      "name": "BigCommerce Test",
+      "id": "test",
+      "meta": {
+        "description": "Testing Bigcommerce theme modification"
+      }
+    },
+    {
       "name": "Light",
       "id": "light",
       "meta": {

@@ -1,0 +1,138 @@
+---
+category:
+    shop_by_price: true
+    products:
+        limit: {{theme_settings.categorypage_products_per_page}}
+cart: true
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{inject "categoryId" category.id}}
+
+
+{{inject "products" category.products}}
+
+{{inject "cart" cart}}
+
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+{{#if category.image}}
+    {{> components/common/responsive-img
+        image=category.image
+        fallback_size=theme_settings.zoom_size
+        lazyload=theme_settings.lazyload_mode
+        class="category-header-image"
+    }}
+{{/if}}
+{{#unless theme_settings.hide_category_page_heading }}
+    <h1 class="page-heading">Custom {{category.name}}</h1>
+
+
+
+{{url}}
+{{id}}
+
+{{cart_url}}
+
+
+
+    <form class="form" method="post" action="/cart.php" enctype="multipart/form-data"
+          data-cart-item-add>
+        <input type="hidden" name="action" value="add">
+        <input type="hidden" name="product_id" value="{{#each category.products}}{{id}}{{/each}}"/>
+<!--         <div data-product-option-change style="display:none;">
+            {{inject 'showSwatchNames' theme_settings.show_product_swatch_names}}
+            {{#each product.options}}
+                {{{dynamicComponent 'components/products/options'}}}
+            {{/each}}
+        </div>
+        <div class="form-field form-field--stock{{#unless product.stock_level}} u-hiddenVisually{{/unless}}">
+            <label class="form-label form-label--alternate">
+                {{lang 'products.current_stock'}}
+                <span data-product-stock>{{product.stock_level}}</span>
+            </label>
+        </div> -->
+
+
+<!--         <div class="alertBox productAttributes-message" style="display:none">
+            <div class="alertBox-column alertBox-icon">
+                <icon glyph="ic-success" class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg></icon>
+            </div>
+            <p class="alertBox-column alertBox-message"></p>
+        </div> -->
+
+        <div class="form-action">
+            <input
+                    id="form-action-addToCart"
+                    data-wait-message="{{lang 'products.adding_to_cart'}}"
+                    class="button button--primary"
+                    type="submit"
+                    value="{{#if product.pre_order}}{{lang 'products.pre_order'}}{{else}}Add All To Cart{{/if}}"
+            >
+            <span class="product-status-message aria-description--hidden">{{lang 'products.adding_to_cart'}} {{lang 'category.add_cart_announcement'}}</span>
+        </div>
+
+    </form>
+
+                   
+    {{#if cart.items}}
+        <input
+                id="cart-remove"
+                data-wait-message="{{lang 'products.adding_to_cart'}}"
+                class="button button--primary"
+                type="submit"
+                value="Remove All Items"
+        >
+    {{/if}}
+
+
+
+    {{{region name="category_below_header"}}}
+{{/unless}}
+{{{category.description}}}
+<div class="page">
+    {{#if category.faceted_search_enabled}}
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/category/sidebar}}
+        </aside>
+    {{else if category.subcategories}}
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/category/sidebar}}
+        </aside>
+    {{else if category.shop_by_price}}
+        {{#if theme_settings.shop_by_price_visibility}}
+             <aside class="page-sidebar" id="faceted-search-container">
+                {{> components/category/sidebar}}
+            </aside>
+        {{/if}}
+    {{/if}}
+
+    <main class="page-content" id="product-listing-container">
+
+        {{> components/category/product-listing}}
+        {{{region name="category_below_content"}}}
+    </main>
+</div>
+
+<div id="previewModal" class="modal modal--large" data-reveal>
+    {{> components/common/modal/modal-close-btn }}
+    <div class="modal-content"></div>
+    <div class="loadingOverlay"></div>
+</div>
+
+{{/partial}}
+{{> layout/base}}
+
+
+
+
+
