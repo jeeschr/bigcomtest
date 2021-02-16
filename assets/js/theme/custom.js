@@ -4,16 +4,13 @@ import swal from './global/sweet-alert';
 export default class Custom extends PageManager {
 
 	onReady(){
-		console.log("Hello world!");
 
 		var products = this.context.products;
-
-		console.log('testing: ',products);
 
 		// add all items to cart button
 		// 
 		$('#form-action-addToCart').on('click', event => {
-			console.log('add to cart');
+			// console.log('add to cart');
 			event.preventDefault();
 
 		    const $addToCartBtn = $('#form-action-addToCart', $(event.target));
@@ -34,7 +31,7 @@ export default class Custom extends PageManager {
 			.then(function(reponse) {
 				products.forEach(function(product){
 
-					console.log('prodcuts',product.id);
+					// console.log('prodcuts',product.id);
 
 					$.get("/cart.php?action=add&product_id="+product.id);
 
@@ -60,7 +57,6 @@ export default class Custom extends PageManager {
 		// 
         $('#cart-remove').on('click', event => {
 
-            console.log('cart remove');
             event.preventDefault();
 
             fetch('/api/storefront/cart', {
